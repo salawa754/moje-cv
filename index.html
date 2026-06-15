@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grzegorz Salawa — Przesyłka: Programista w drodze</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #F2ECDC;
+    --paper-deep: #E5D6BA;
+    --ink: #221E18;
+    --ink-soft: #6B5F4F;
+    --stamp-red: #AE3A29;
+    --postal-green: #46563F;
+    --line: #CBB996;
+    --max-w: 1100px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .mono{ font-family:'Space Mono', monospace; }
+
+  .display{
+    font-family:'Anton', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    line-height:1.05;
+  }
+
+  .wrap{
+    max-width:var(--max-w);
+    margin:0 auto;
+    padding:0 1.5rem;
+  }
+
+  a{ color:inherit; }
+
+  /* ============ HEADER ============ */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:var(--paper);
+    border-bottom:2px solid var(--ink);
+  }
+  .nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0.9rem 1.5rem;
+    max-width:var(--max-w);
+    margin:0 auto;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    font-family:'Anton', sans-serif;
+    font-size:1.3rem;
+    letter-spacing:0.05em;
+    text-decoration:none;
+    color:var(--ink);
+  }
+  .logo-mark{
+    width:30px; height:30px;
+    background:
+      repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 6px, transparent 6px 9px);
+    flex-shrink:0;
+  }
+  nav ul{
+    display:flex;
+    gap:1.8rem;
+    list-style:none;
+  }
+  nav a{
+    text-decoration:none;
+    font-family:'Space Mono', monospace;
+    font-size:0.85rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    border-bottom:2px solid transparent;
+    padding-bottom:4px;
+    transition:color .2s, border-color .2s;
+  }
+  nav a:hover, nav a:focus-visible{
+    color:var(--stamp-red);
+    border-color:var(--stamp-red);
+    outline:none;
+  }
+  .nav-toggle{ display:none; }
+
+  @media (max-width: 760px){
+    nav ul{
+      position:absolute;
+      top:100%; left:0; right:0;
+      flex-direction:column;
+      background:var(--paper);
+      border-bottom:2px solid var(--ink);
+      padding:1rem 1.5rem;
+      gap:1rem;
+      display:none;
+    }
+    nav ul.open{ display:flex; }
+    .nav-toggle{
+      display:block;
+      font-family:'Space Mono', monospace;
+      background:none;
+      border:2px solid var(--ink);
+      border-radius:4px;
+      padding:0.4rem 0.7rem;
+      font-size:0.85rem;
+      cursor:pointer;
+      color:var(--ink);
+    }
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    padding:3.5rem 0 5rem;
+  }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:0.8rem;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    color:var(--ink-soft);
+    margin-bottom:1rem;
+  }
+
+  .manifest{
+    position:relative;
+    background:var(--paper-deep);
+    border:2px solid var(--ink);
+    border-radius:6px;
+    padding:2.6rem 2rem;
+    overflow:hidden;
+  }
+  .manifest::before, .manifest::after{
+    content:'';
+    position:absolute;
+    left:0; right:0;
+    height:18px;
+    background: radial-gradient(circle at 9px 9px, var(--paper) 7px, transparent 7.5px) repeat-x;
+    background-size: 18px 18px;
+  }
+  .manifest::before{ top:-1px; }
+  .manifest::after{ bottom:-1px; }
+
+  .barcode{
+    height:46px;
+    width:220px;
+    background: repeating-linear-gradient(90deg,
+      var(--ink) 0 3px, transparent 3px 5px,
+      var(--ink) 5px 6px, transparent 6px 11px,
+      var(--ink) 11px 15px, transparent 15px 18px,
+      var(--ink) 18px 19px, transparent 19px 24px);
+    margin-bottom:0.5rem;
+  }
+  .tracking-no{
+    font-size:0.85rem;
+    letter-spacing:0.12em;
+    color:var(--ink-soft);
+  }
+
+  .manifest-top{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:1.5rem;
+    margin-bottom:2rem;
+  }
+
+  h1.name{
+    font-size:clamp(2.6rem, 9vw, 5.2rem);
+    margin:1.2rem 0 0.6rem;
+  }
+
+  .role-line{
+    font-family:'Space Mono', monospace;
+    font-size:clamp(0.85rem, 2vw, 1.05rem);
+    color:var(--ink-soft);
+    margin-bottom:1.8rem;
+  }
+  .role-line .accent{ color:var(--stamp-red); font-weight:700; }
+
+  .route-line{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.6rem 1.2rem;
+    align-items:center;
+    font-family:'Space Mono', monospace;
+    font-size:0.85rem;
+    border-top:1px dashed var(--line);
+    border-bottom:1px dashed var(--line);
+    padding:0.9rem 0;
+    margin-bottom:1.8rem;
+  }
+  .route-line .arrow{ color:var(--ink-soft); }
+  .route-line b{ text-transform:uppercase; }
+
+  .stamps{
+    display:flex;
+    flex-wrap:wrap;
+    gap:1rem;
+    align-items:center;
+  }
+  .stamp{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    font-size:0.78rem;
+    border:3px solid var(--stamp-red);
+    color:var(--stamp-red);
+    border-radius:6px;
+    padding:0.5rem 0.9rem;
+    transform:rotate(-7deg) scale(0.6);
+    opacity:0;
+    animation: stampIn .5s ease-out forwards;
+    background:transparent;
+  }
+  .stamp.green{ border-color:var(--postal-green); color:var(--postal-green); }
+  .stamp.round{
+    border-radius:50%;
+    width:88px; height:88px;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    font-size:0.68rem;
+    line-height:1.3;
+    transform:rotate(8deg) scale(0.6);
+  }
+  .stamp:nth-child(1){ animation-delay:.15s; }
+  .stamp:nth-child(2){ animation-delay:.4s; }
+  .stamp:nth-child(3){ animation-delay:.65s; }
+
+  @keyframes stampIn{
+    to{ opacity:0.9; transform:rotate(-7deg) scale(1); }
+  }
+  .stamp.round{ animation-name: stampInRound; }
+  @keyframes stampInRound{
+    to{ opacity:0.9; transform:rotate(8deg) scale(1); }
+  }
+
+  .cta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:1rem;
+    margin-top:2.2rem;
+  }
+  .btn{
+    font-family:'Space Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    font-size:0.85rem;
+    text-decoration:none;
+    padding:0.85rem 1.6rem;
+    border-radius:4px;
+    border:2px solid var(--ink);
+    transition: background .2s, color .2s, transform .15s;
+    display:inline-block;
+  }
+  .btn-primary{ background:var(--ink); color:var(--paper); }
+  .btn-primary:hover{ background:var(--stamp-red); border-color:var(--stamp-red); transform:translateY(-2px); }
+  .btn-secondary{ background:transparent; color:var(--ink); }
+  .btn-secondary:hover{ background:var(--ink); color:var(--paper); transform:translateY(-2px); }
+
+  /* ============ SECTIONS GENERIC ============ */
+  section{ padding:4.5rem 0; }
+  .section-head{
+    margin-bottom:2.5rem;
+  }
+  .section-tag{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--stamp-red);
+    margin-bottom:0.6rem;
+  }
+  h2{
+    font-family:'Anton', sans-serif;
+    text-transform:uppercase;
+    font-size:clamp(1.8rem, 5vw, 2.8rem);
+    letter-spacing:0.02em;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition: opacity .6s ease-out, transform .6s ease-out;
+  }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+
+  /* ============ ABOUT / PRODUCT CARD ============ */
+  .product-card{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:0;
+    border:2px solid var(--ink);
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--paper-deep);
+  }
+  @media (max-width:760px){ .product-card{ grid-template-columns:1fr; } }
+  .product-card .col{ padding:2rem; }
+  .product-card .col + .col{ border-left:2px dashed var(--ink); }
+  @media (max-width:760px){ .product-card .col + .col{ border-left:none; border-top:2px dashed var(--ink); } }
+
+  .spec-table{ width:100%; font-family:'Space Mono', monospace; font-size:0.9rem; }
+  .spec-table tr{ border-bottom:1px dashed var(--line); }
+  .spec-table tr:last-child{ border-bottom:none; }
+  .spec-table td{ padding:0.55rem 0; vertical-align:top; }
+  .spec-table td:first-child{ color:var(--ink-soft); white-space:nowrap; padding-right:1rem; }
+
+  .about-text p + p{ margin-top:1rem; }
+  .badge-row{
+    display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.4rem;
+  }
+  .badge{
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    border:1px solid var(--ink);
+    border-radius:3px;
+    padding:0.3rem 0.6rem;
+  }
+
+  /* ============ SKILLS / WAREHOUSE ============ */
+  .shelf{
+    margin-bottom:2.2rem;
+  }
+  .shelf-title{
+    font-family:'Space Mono', monospace;
+    font-size:0.85rem;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);
+    padding-bottom:0.5rem;
+    margin-bottom:1rem;
+  }
+  .shelf-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:1rem;
+  }
+  .item{
+    background:var(--paper-deep);
+    border:2px solid var(--ink);
+    border-radius:6px;
+    padding:1rem 1.1rem;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .item:hover{
+    transform: translateY(-4px) rotate(-1deg);
+    box-shadow: 4px 6px 0 var(--ink);
+  }
+  .item-sku{
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem;
+    color:var(--ink-soft);
+    letter-spacing:0.08em;
+  }
+  .item-name{
+    font-weight:600;
+    font-size:1.05rem;
+    margin:0.25rem 0 0.5rem;
+  }
+  .item-status{
+    display:inline-block;
+    font-family:'Space Mono', monospace;
+    font-size:0.65rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    border:1px solid var(--postal-green);
+    color:var(--postal-green);
+    border-radius:3px;
+    padding:0.15rem 0.45rem;
+  }
+  .item-status.dev{ border-color:var(--stamp-red); color:var(--stamp-red); }
+
+  .lang-item .bar-track{
+    margin-top:0.6rem;
+    height:8px;
+    border:1px solid var(--ink);
+    border-radius:4px;
+    overflow:hidden;
+    background:var(--paper);
+  }
+  .lang-item .bar-fill{
+    height:100%;
+    width:0%;
+    background: var(--stamp-red);
+    transition: width 1s ease-out;
+  }
+
+  /* ============ TIMELINE / TRACKING ============ */
+  .tracking{
+    position:relative;
+    padding-left:2.4rem;
+  }
+  .tracking::before{
+    content:'';
+    position:absolute;
+    left:9px; top:6px; bottom:6px;
+    width:2px;
+    background: repeating-linear-gradient(to bottom, var(--ink) 0 6px, transparent 6px 12px);
+  }
+  .checkpoint{
+    position:relative;
+    padding-bottom:2.2rem;
+  }
+  .checkpoint:last-child{ padding-bottom:0; }
+  .checkpoint::before{
+    content:'';
+    position:absolute;
+    left:-2.4rem;
+    top:4px;
+    width:18px; height:18px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--ink);
+  }
+  .checkpoint.current::before{
+    background:var(--stamp-red);
+    border-color:var(--stamp-red);
+    animation: pulse 1.6s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(174,58,41,0.5); }
+    70%{ box-shadow:0 0 0 9px rgba(174,58,41,0); }
+    100%{ box-shadow:0 0 0 0 rgba(174,58,41,0); }
+  }
+  .checkpoint .cp-date{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  .checkpoint.current .cp-date{ color:var(--stamp-red); font-weight:700; }
+  .checkpoint .cp-title{
+    font-weight:700;
+    font-size:1.15rem;
+    margin:0.2rem 0 0.3rem;
+  }
+  .checkpoint .cp-desc{ color:var(--ink-soft); font-size:0.95rem; }
+
+  /* ============ EDUCATION / DOCUMENTS ============ */
+  .doc-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:1.5rem;
+  }
+  .doc-card{
+    position:relative;
+    background:var(--paper-deep);
+    border:2px solid var(--ink);
+    border-radius:6px;
+    padding:1.6rem;
+  }
+  .doc-card .seal{
+    position:absolute;
+    top:1rem; right:1rem;
+    width:64px; height:64px;
+    border-radius:50%;
+    border:3px solid var(--postal-green);
+    color:var(--postal-green);
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    font-family:'Space Mono', monospace;
+    font-size:0.62rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    transform:rotate(10deg);
+    line-height:1.2;
+  }
+  .doc-card h3{ font-size:1.1rem; margin-bottom:0.4rem; padding-right:60px; }
+  .doc-card .doc-meta{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+  }
+
+  /* ============ CONTACT ============ */
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2rem;
+  }
+  @media (max-width:760px){ .contact-grid{ grid-template-columns:1fr; } }
+
+  .return-label{
+    border:2px solid var(--ink);
+    border-radius:6px;
+    background:var(--paper-deep);
+    padding:1.8rem;
+  }
+  .return-label .rl-tag{
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    text-transform:uppercase;
+    letter-spacing:0.15em;
+    color:var(--ink-soft);
+    border-bottom:1px dashed var(--line);
+    padding-bottom:0.7rem;
+    margin-bottom:0.9rem;
+  }
+  .return-label table{ width:100%; font-family:'Space Mono', monospace; font-size:0.95rem; }
+  .return-label td{ padding:0.4rem 0; }
+  .return-label td:first-child{ color:var(--ink-soft); width:38%; }
+  .return-label a{ text-decoration:none; border-bottom:1px solid var(--ink); }
+  .return-label a:hover{ color:var(--stamp-red); border-color:var(--stamp-red); }
+
+  form{ display:flex; flex-direction:column; gap:1rem; }
+  label{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    margin-bottom:0.35rem;
+    display:block;
+  }
+  input, textarea{
+    width:100%;
+    font-family:'Work Sans', sans-serif;
+    font-size:1rem;
+    padding:0.7rem 0.8rem;
+    border:2px solid var(--ink);
+    border-radius:4px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  input:focus, textarea:focus{
+    outline:3px solid var(--stamp-red);
+    outline-offset:1px;
+  }
+  textarea{ min-height:120px; resize:vertical; }
+  .form-status{
+    font-family:'Space Mono', monospace;
+    font-size:0.8rem;
+    color:var(--postal-green);
+    min-height:1.2em;
+  }
+
+  /* ============ FOOTER ============ */
+  footer{
+    border-top:2px solid var(--ink);
+    padding:2.5rem 0;
+  }
+  .footer-inner{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center;
+    gap:1rem;
+  }
+  .footer-barcode{
+    height:30px; width:140px;
+    background: repeating-linear-gradient(90deg,
+      var(--ink) 0 2px, transparent 2px 4px,
+      var(--ink) 4px 5px, transparent 5px 9px,
+      var(--ink) 9px 12px, transparent 12px 15px);
+  }
+  .footer-text{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .stamp{ opacity:0.9; transform:rotate(-7deg) scale(1) !important; }
+    .stamp.round{ transform:rotate(8deg) scale(1) !important; }
+    .reveal{ opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark" aria-hidden="true"></span>
+      G. SALAWA
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">MENU</button>
+    <nav>
+      <ul id="navMenu">
+        <li><a href="#o-mnie">O mnie</a></li>
+        <li><a href="#umiejetnosci">Umiejętności</a></li>
+        <li><a href="#doswiadczenie">Doświadczenie</a></li>
+        <li><a href="#edukacja">Edukacja</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Przesyłka nr WRO-2026-0614-GS · Awizo dostawy kompetencji</div>
+      <div class="manifest">
+        <div class="manifest-top">
+          <div>
+            <div class="barcode" role="img" aria-label="Kod kreskowy przesyłki"></div>
+            <div class="tracking-no">SKAN: 0614-2026-PROGRAMISTA</div>
+          </div>
+          <div class="stamps">
+            <div class="stamp">W drodze</div>
+            <div class="stamp round">Wrocław<br>PL · 2026</div>
+          </div>
+        </div>
+
+        <h1 class="name display">Grzegorz<br>Salawa</h1>
+        <div class="role-line">
+          Junior Programista <span class="accent">(w przygotowaniu)</span> — HTML · CSS · JavaScript · PHP · SQL
+        </div>
+
+        <div class="route-line">
+          <span><b>Nadawca:</b> Magazyn, Wrocław</span>
+          <span class="arrow">→</span>
+          <span><b>Odbiorca:</b> Twój zespół IT</span>
+          <span class="arrow">→</span>
+          <span><b>Status:</b> gotowy do podjęcia pracy</span>
+        </div>
+
+        <div class="stamps">
+          <div class="stamp green">Fragile: nowy dev w środku</div>
+        </div>
+
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#kontakt">Napisz do mnie</a>
+          <a class="btn btn-secondary" href="#umiejetnosci">Zawartość przesyłki (umiejętności)</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O MNIE -->
+  <section id="o-mnie">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="section-tag">Karta produktu</div>
+        <h2>O mnie</h2>
+      </div>
+      <div class="product-card reveal">
+        <div class="col about-text">
+          <p>Jestem osobą zdeterminowaną i odpowiedzialną — kilka lat w magazynach i na produkcji nauczyło mnie, że dobra organizacja i dotrzymywanie terminów to nie slogany, tylko codzienność. Teraz tę samą determinację przekładam na naukę programowania.</p>
+          <p>Lubię pracować w zespole, szybko się uczę nowych rzeczy i podchodzę do problemów w sposób analityczny i kreatywny — czy to przy pakowaniu zamówień, czy przy pisaniu pierwszych linii kodu. Otwarty na nowe wyzwania i gotowy na ciągły rozwój.</p>
+          <div class="badge-row">
+            <span class="badge">Działanie pod presją czasu</span>
+            <span class="badge">Komunikatywność</span>
+            <span class="badge">Myślenie analityczne</span>
+            <span class="badge">Kreatywność</span>
+          </div>
+        </div>
+        <div class="col">
+          <table class="spec-table">
+            <tr><td>Produkt</td><td>Grzegorz Salawa</td></tr>
+            <tr><td>Wersja</td><td>2026 — junior developer</td></tr>
+            <tr><td>Stan</td><td>W aktywnym rozwoju, aktualizacje co tydzień</td></tr>
+            <tr><td>Lokalizacja</td><td>Wrocław, Polska</td></tr>
+            <tr><td>Cel</td><td>Nauka nowych umiejętności, zdobywanie doświadczenia i rozwijanie potencjału w IT</td></tr>
+            <tr><td>Najbliższy plan</td><td>Doskonalenie umiejętności programowania, pierwsza praca jako programista</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UMIEJĘTNOŚCI -->
+  <section id="umiejetnosci">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="section-tag">Magazyn umiejętności</div>
+        <h2>Zawartość przesyłki</h2>
+      </div>
+
+      <div class="shelf reveal">
+        <div class="shelf-title">Regał A — Frontend</div>
+        <div class="shelf-grid">
+          <div class="item">
+            <div class="item-sku">SKU-FE01</div>
+            <div class="item-name">HTML</div>
+            <span class="item-status dev">W rozwoju</span>
+          </div>
+          <div class="item">
+            <div class="item-sku">SKU-FE02</div>
+            <div class="item-name">CSS</div>
+            <span class="item-status dev">W rozwoju</span>
+          </div>
+          <div class="item">
+            <div class="item-sku">SKU-FE03</div>
+            <div class="item-name">JavaScript</div>
+            <span class="item-status dev">W rozwoju</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shelf reveal">
+        <div class="shelf-title">Regał B — Backend &amp; dane</div>
+        <div class="shelf-grid">
+          <div class="item">
+            <div class="item-sku">SKU-BE01</div>
+            <div class="item-name">PHP</div>
+            <span class="item-status dev">W rozwoju</span>
+          </div>
+          <div class="item">
+            <div class="item-sku">SKU-BE02</div>
+            <div class="item-name">SQL</div>
+            <span class="item-status dev">W rozwoju</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shelf reveal">
+        <div class="shelf-title">Regał C — Systemy operacyjne</div>
+        <div class="shelf-grid">
+          <div class="item">
+            <div class="item-sku">SKU-OS01</div>
+            <div class="item-name">Windows</div>
+            <span class="item-status">Operacyjny</span>
+          </div>
+          <div class="item">
+            <div class="item-sku">SKU-OS02</div>
+            <div class="item-name">macOS / iOS</div>
+            <span class="item-status">Operacyjny</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shelf reveal">
+        <div class="shelf-title">Regał D — Kompetencje miękkie</div>
+        <div class="shelf-grid">
+          <div class="item">
+            <div class="item-sku">SKU-S01</div>
+            <div class="item-name">Komunikatywność</div>
+            <span class="item-status">Dostępne od ręki</span>
+          </div>
+          <div class="item">
+            <div class="item-sku">SKU-S02</div>
+            <div class="item-name">Myślenie analityczne</div>
+            <span class="item-status">Dostępne od ręki</span>
+          </div>
+          <div class="item">
+            <div class="item-sku">SKU-S03</div>
+            <div class="item-name">Kreatywne rozwiązywanie problemów</div>
+            <span class="item-status">Dostępne od ręki</span>
+          </div>
+          <div class="item">
+            <div class="item-sku">SKU-S04</div>
+            <div class="item-name">Praca pod presją czasu</div>
+            <span class="item-status">Dostępne od ręki</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shelf reveal">
+        <div class="shelf-title">Regał E — Języki</div>
+        <div class="shelf-grid">
+          <div class="item lang-item">
+            <div class="item-sku">SKU-L01</div>
+            <div class="item-name">Angielski</div>
+            <div class="bar-track"><div class="bar-fill" data-level="65"></div></div>
+          </div>
+          <div class="item lang-item">
+            <div class="item-sku">SKU-L02</div>
+            <div class="item-name">Niemiecki</div>
+            <div class="bar-track"><div class="bar-fill" data-level="35"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DOŚWIADCZENIE -->
+  <section id="doswiadczenie">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="section-tag">Status przesyłki</div>
+        <h2>Trasa dostawy</h2>
+      </div>
+
+      <div class="tracking reveal">
+
+        <div class="checkpoint current">
+          <div class="cp-date">W drodze — następny przystanek</div>
+          <div class="cp-title">Junior Programista</div>
+          <div class="cp-desc">Szukam pierwszej pracy w branży IT. Gotowy od zaraz, z pełnym zestawem narzędzi z regałów A i B.</div>
+        </div>
+
+        <div class="checkpoint">
+          <div class="cp-date">2025 – 2026</div>
+          <div class="cp-title">Magazynier — Hexagones, Wrocław</div>
+          <div class="cp-desc">Monitorowanie i wysyłka zamówień, pakowanie przesyłek gotowych do wysyłki, organizacja pracy magazynu.</div>
+        </div>
+
+        <div class="checkpoint">
+          <div class="cp-date">2022 – 2024</div>
+          <div class="cp-title">Kierownictwo hali produkcyjnej — Rathbeg Bio, Szwajcaria</div>
+          <div class="cp-desc">Kontrola jakości warzyw, obsługa elektrycznego wózka paletowego, monitorowanie i wysyłanie zamówień, pakowanie przesyłek.</div>
+        </div>
+
+        <div class="checkpoint">
+          <div class="cp-date">2021 – 2022</div>
+          <div class="cp-title">Policjant — KMP w Wałbrzychu</div>
+          <div class="cp-desc">Działania patrolowo-interwencyjne, ochrona bezpieczeństwa i porządku publicznego.</div>
+        </div>
+
+        <div class="checkpoint">
+          <div class="cp-date">2019 – 2020</div>
+          <div class="cp-title">Montażysta — Kseroplast Plus</div>
+          <div class="cp-desc">Produkcja reklam świetlnych, montaż i serwis kasetonów reklamowych.</div>
+        </div>
+
+        <div class="checkpoint">
+          <div class="cp-date">2019</div>
+          <div class="cp-title">Industry Personnel Services Sp. z o.o.</div>
+          <div class="cp-desc">Kontrola jakości, pakowanie pasów bezpieczeństwa.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUKACJA -->
+  <section id="edukacja">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="section-tag">Dokumenty przewozowe</div>
+        <h2>Edukacja</h2>
+      </div>
+      <div class="doc-grid reveal">
+        <div class="doc-card">
+          <div class="seal">Zaliczone</div>
+          <h3>Kwalifikowany Kurs Zawodowy:<br>Technik Programista</h3>
+          <div class="doc-meta">Szkoła Policealna Plus Edukacja, Wrocław</div>
+        </div>
+        <div class="doc-card">
+          <div class="seal">Zaliczone</div>
+          <h3>Liceum Ogólnokształcące</h3>
+          <div class="doc-meta">Profil humanistyczno-lingwistyczny z edukacją informatyczną · Kamienna Góra</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="section-tag">Etykieta nadawcy</div>
+        <h2>Kontakt</h2>
+      </div>
+      <div class="contact-grid reveal">
+        <div class="return-label">
+          <div class="rl-tag">Dane nadawcy</div>
+          <table>
+            <tr><td>Imię i nazwisko</td><td>Grzegorz Salawa</td></tr>
+            <tr><td>Telefon</td><td><a href="tel:534132989">534 132 989</a></td></tr>
+            <tr><td>E-mail</td><td><a href="mailto:Salawa754@gmail.com">Salawa754@gmail.com</a></td></tr>
+            <tr><td>Lokalizacja</td><td>Wrocław, Polska</td></tr>
+            <tr><td>Status</td><td>Dostępny od zaraz</td></tr>
+          </table>
+        </div>
+        <div>
+          <form id="contactForm">
+            <div>
+              <label for="name">Twoje imię</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+              <label for="email">Twój e-mail</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+              <label for="message">Wiadomość</label>
+              <textarea id="message" name="message" required placeholder="Np. mamy dla Ciebie ofertę praktyk..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="cursor:pointer;">Wyślij zgłoszenie</button>
+            <div class="form-status" id="formStatus"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-barcode" role="img" aria-label="Kod kreskowy"></div>
+    <div class="footer-text">© 2026 Grzegorz Salawa — strona w wersji roboczej, tak jak ja: w stałym rozwoju.</div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Reveal on scroll + language bar fill
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.level + '%';
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Contact form -> mailto
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const subject = encodeURIComponent('Kontakt ze strony — ' + name);
+    const body = encodeURIComponent(message + '\n\nOd: ' + name + ' (' + email + ')');
+    window.location.href = `mailto:Salawa754@gmail.com?subject=${subject}&body=${body}`;
+    status.textContent = 'Otwieram Twój program pocztowy...';
+  });
+</script>
+
+</body>
+</html>
